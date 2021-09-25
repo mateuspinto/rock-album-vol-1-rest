@@ -57,7 +57,7 @@ def __is_this_sticker_waiting_for_sale():
     return 1 if list(DB_CUR.execute(f'SELECT COUNT(*) FROM stickers WHERE id="{request.form["sticker_id"]}" AND is_for_sale=1'))[0][0] == 1 else 0
 
 
-@APP.route('/admin/create_giftcard/', methods=['POST'])
+@APP.route('/admin/create_giftcard/', methods=['PUT'])
 def admin__create_giftcard():
     if __exist_giftcard() == 1:
         return {'error': 1, 'error_message': 'Falha na criação do Giftcard! Já existe um Giftcard com essa chave.'}
@@ -68,7 +68,7 @@ def admin__create_giftcard():
     return {'error': 0}
 
 
-@APP.route('/admin/create_stickers/', methods=['POST'])
+@APP.route('/admin/create_stickers/', methods=['PUT'])
 def admin__create_stickers():
     DB_CUR = get_database().cursor()
     for _ in range(request.form["sticker_number"]):
@@ -77,7 +77,7 @@ def admin__create_stickers():
     return {'error': 0}
 
 
-@APP.route('/admin/draw_lucky_prize/', methods=['POST'])
+@APP.route('/admin/draw_lucky_prize/', methods=['PUT'])
 def admin__draw_lucky_prize():
     DB_CUR = get_database().cursor()
     DB_CUR.execute('UPDATE users SET coins=coins+50 WHERE email=(SELECT email FROM users ORDER BY RANDOM() LIMIT 1)')
@@ -85,7 +85,7 @@ def admin__draw_lucky_prize():
     return {'error': 0}
 
 
-@APP.route('/admin/op/', methods=['POST'])
+@APP.route('/admin/op/', methods=['PUT'])
 def admin__op():
     if __exist_email_registered() == 0:
         return {'error': 1, 'error_message': 'Não é possível tornar esse usuário um administrador! Email não encontrado.'}
@@ -96,7 +96,7 @@ def admin__op():
     return {'error': 0}
 
 
-@APP.route('/admin/unop/', methods=['POST'])
+@APP.route('/admin/unop/', methods=['PUT'])
 def admin__unop():
     if __exist_email_registered() == 0:
         return {'error': 1, 'error_message': 'Não é possível tornar esse usuário um administrador! Email não encontrado.'}
@@ -119,7 +119,7 @@ def album__get_free_stickers():
     return {'error': 0, 'stickers': [{'id': x[0], 'sticker_name': x[1]} for x in list(DB_CUR.execute(f'SELECT id, name FROM stickers WHERE owner_email="{request.form["email"]}" AND is_pasted=0 AND is_for_sale=0'))]}
 
 
-@APP.route('/album/paste_sticker/', methods=['POST'])
+@APP.route('/album/paste_sticker/', methods=['PUT'])
 def album__paste_sticker():
     if __exist_sticker() == 0:
         return {'error': 1, 'error_message': 'Não é possível colar esta figurinha! A figurinha não existe.'}
@@ -139,7 +139,7 @@ def album__paste_sticker():
     return {'error': 0}
 
 
-@APP.route('/community_market/buy_sticker/', methods=['POST'])
+@APP.route('/community_market/buy_sticker/', methods=['PUT'])
 def community_market__buy_sticker():
     DB_CUR = get_database().cursor()
     QUERRY_RESULT = list(DB_CUR.execute(f'SELECT id, price FROM stickers WHERE price=(SELECT MIN(price) FROM stickers WHERE name="{request.form["sticker_name"]}" AND is_for_sale=1 AND owner_email!="{request.form["email"]}")'))
@@ -175,7 +175,7 @@ def community_market__get_stickers_waiting_for_sale():
     return {'error': 0, 'stickers': [{'sticker_name': x[0], 'price':x[1]} for x in list(DB_CUR.execute(f'SELECT name, price FROM stickers WHERE owner_email="{request.form["email"]}" AND is_for_sale=1'))]}
 
 
-@APP.route('/community_market/put_sticker_to_sell/', methods=['POST'])
+@APP.route('/community_market/put_sticker_to_sell/', methods=['PUT'])
 def community_market__put_sticker_to_sell():
     if __exist_sticker() == 0:
         return {'error': 1, 'error_message': 'Não é possível vender esta figurinha! A figurinha não existe.'}
@@ -213,7 +213,7 @@ def user__login():
         return {'error': 1, 'error_message': 'Usuário não encontrado!'}
 
 
-@APP.route('/user/register/', methods=['POST'])
+@APP.route('/user/register/', methods=['PUT'])
 def user__register():
     if __exist_email_registered() == 1:
         return {'error': 1, 'error_message': 'Falha no cadastro! Email já está em uso.'}
@@ -224,7 +224,7 @@ def user__register():
     return {'error': 0}
 
 
-@APP.route('/user/retrieve_giftcard/', methods=['POST'])
+@APP.route('/user/retrieve_giftcard/', methods=['PUT'])
 def user__retrieve_giftcard():
     if __exist_giftcard() == 0:
         return {'error': 1, 'error_message': 'Falha no resgate do Giftcard! Não existe um Giftcard com essa chave.'}
@@ -236,7 +236,7 @@ def user__retrieve_giftcard():
     return {'error': 0}
 
 
-@APP.route('/official_market/buy_sticker_pack/', methods=['POST'])
+@APP.route('/official_market/buy_sticker_pack/', methods=['PUT'])
 def official_market__buy_sticker_pack():
     DB_CUR = get_database().cursor()
 
