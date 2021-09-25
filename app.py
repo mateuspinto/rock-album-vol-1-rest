@@ -3,22 +3,22 @@ import json
 import sqlite3
 
 CFG = json.load(open('config.json'))
-DATABASE = CFG['SQLITE_FILE']
+DATABASE_FILENAME = CFG['SQLITE_FILE']
 APP = Flask(__name__)
 
 
 def get_database():
-    DB = getattr(g, '_database', None)
-    if DB is None:
-        DB = g._database = sqlite3.connect(DATABASE)
-    return DB
+    DATABASE = getattr(g, '_database', None)
+    if DATABASE is None:
+        DATABASE = g._database = sqlite3.connect(DATABASE_FILENAME)
+    return DATABASE
 
 
 @APP.teardown_appcontext
 def close_connection(_):
-    DB = getattr(g, '_database', None)
-    if DB is not None:
-        DB.close()
+    DATABASE = getattr(g, '_database', None)
+    if DATABASE is not None:
+        DATABASE.close()
 
 
 def __exist_email_registered():
