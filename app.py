@@ -1,3 +1,9 @@
+#!/usr/bin/python3
+
+# Nome: Servidor REST API do Rock Album Vol 1
+# Autor: Mateus Pinto da Silva
+# Data: 25/09/2021
+
 from flask import Flask, request, g
 import json
 import sqlite3
