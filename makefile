@@ -1,5 +1,5 @@
 all:
-	python -m flask run
+	python .\server\main.py
 
 run:
 	python .\client\main.py

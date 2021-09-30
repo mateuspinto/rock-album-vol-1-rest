@@ -1,4 +1,5 @@
 {
     "SQLITE_FILE": "db.sqlite3",
-    "SERVER_URL": "http://127.0.0.1:5000/"
+    "HOST": "127.0.0.1",
+    "PORT": 5000
 }

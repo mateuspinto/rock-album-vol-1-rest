@@ -1,9 +1,3 @@
-#!/usr/bin/python3
-
-# Nome: Cliente no terminal via REST API do Rock Album Vol 1
-# Autor: Mateus Pinto da Silva
-# Data: 25/09/2021
-
 import routes
 
 
