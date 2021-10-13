@@ -1,5 +1,5 @@
 all:
-	python .\server\main.py
+	python ./server/main.py
 
 run:
-	python .\client\main.py
+	python ./client/main.py
