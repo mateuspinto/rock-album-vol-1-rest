@@ -10,7 +10,7 @@ def is_admin(EMAIL):
         'email': EMAIL
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'user/is_admin/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'user/is_admin/', data=REQUEST).json()
 
     return not RESPONSE['error']
 
@@ -22,7 +22,7 @@ def login():
             'password': input('Digite a sua senha: ')
         }
 
-        RESPONSE = requests.put(SERVER_URL + 'user/login/', data=REQUEST).json()
+        RESPONSE = requests.get(SERVER_URL + 'user/login/', data=REQUEST).json()
 
         if RESPONSE['error'] == 1:
             print(f'Erro! {RESPONSE["error_message"]} Tente novamente...\n')
@@ -120,7 +120,7 @@ def album__get_album(EMAIL):
         'email': EMAIL,
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'album/get_album/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'album/get_album/', data=REQUEST).json()
 
     if RESPONSE['error'] == 1:
         print(f'Erro! {RESPONSE["error_message"]}')
@@ -135,7 +135,7 @@ def album__get_free_stickers(EMAIL):
         'email': EMAIL,
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'album/get_free_stickers/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'album/get_free_stickers/', data=REQUEST).json()
 
     if RESPONSE['error'] == 1:
         print(f'Erro! {RESPONSE["error_message"]}')
@@ -179,7 +179,7 @@ def community_market__get_sticker_price(EMAIL):
         'sticker_name': input('Insira o nome da figurinha: '),
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'community_market/get_sticker_price/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'community_market/get_sticker_price/', data=REQUEST).json()
 
     if RESPONSE['error'] == 1:
         print(f'Erro! {RESPONSE["error_message"]}')
@@ -192,7 +192,7 @@ def community_market__get_stickers_waiting_for_sale(EMAIL):
         'email': EMAIL,
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'community_market/get_stickers_waiting_for_sale/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'community_market/get_stickers_waiting_for_sale/', data=REQUEST).json()
 
     if RESPONSE['error'] == 1:
         print(f'Erro! {RESPONSE["error_message"]}')
@@ -222,7 +222,7 @@ def user__get_coins(EMAIL):
         'email': EMAIL,
     }
 
-    RESPONSE = requests.put(SERVER_URL + 'user/get_coins/', data=REQUEST).json()
+    RESPONSE = requests.get(SERVER_URL + 'user/get_coins/', data=REQUEST).json()
 
     if RESPONSE['error'] == 1:
         print(f'Erro! {RESPONSE["error_message"]}')

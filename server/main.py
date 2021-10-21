@@ -107,13 +107,13 @@ def admin__unop():
     return {'error': 0}
 
 
-@APP.route('/album/get_album/', methods=['PUT'])
+@APP.route('/album/get_album/', methods=['GET'])
 def album__get_album():
     DB_CUR = get_database().cursor()
     return {'error': 0, 'stickers': [x[0] for x in list(DB_CUR.execute(f'SELECT name FROM stickers WHERE owner_email="{request.form["email"]}" AND is_pasted=1'))]}
 
 
-@APP.route('/album/get_free_stickers/', methods=['PUT'])
+@APP.route('/album/get_free_stickers/', methods=['GET'])
 def album__get_free_stickers():
     DB_CUR = get_database().cursor()
     return {'error': 0, 'stickers': [{'id': x[0], 'sticker_name': x[1]} for x in list(DB_CUR.execute(f'SELECT id, name FROM stickers WHERE owner_email="{request.form["email"]}" AND is_pasted=0 AND is_for_sale=0'))]}
@@ -158,7 +158,7 @@ def community_market__buy_sticker():
     return {'error': 0}
 
 
-@APP.route('/community_market/get_sticker_price/', methods=['PUT'])
+@APP.route('/community_market/get_sticker_price/', methods=['GET'])
 def community_market__get_sticker_price():
     DB_CUR = get_database().cursor()
     QUERRY_RESULT = list(DB_CUR.execute(f'SELECT price FROM stickers WHERE price=(SELECT MIN(price) FROM stickers WHERE name="{request.form["sticker_name"]}" AND is_for_sale=1 AND owner_email!="{request.form["email"]}")'))
@@ -169,14 +169,14 @@ def community_market__get_sticker_price():
     return {'error': 0, 'price': QUERRY_RESULT[0][0]}
 
 
-@APP.route('/community_market/get_stickers_waiting_for_sale/', methods=['PUT'])
+@APP.route('/community_market/get_stickers_waiting_for_sale/', methods=['GET'])
 def community_market__get_stickers_waiting_for_sale():
     DB_CUR = get_database().cursor()
     return {'error': 0, 'stickers': [{'sticker_name': x[0], 'price':x[1]} for x in list(DB_CUR.execute(f'SELECT name, price FROM stickers WHERE owner_email="{request.form["email"]}" AND is_for_sale=1'))]}
 
 
-@APP.route('/community_market/put_sticker_to_sell/', methods=['POST'])
-def community_market__put_sticker_to_sell():
+@APP.route('/community_market/GET_sticker_to_sell/', methods=['POST'])
+def community_market__GET_sticker_to_sell():
     if __exist_sticker() == 0:
         return {'error': 1, 'error_message': 'Não é possível vender esta figurinha! A figurinha não existe.'}
 
@@ -189,12 +189,12 @@ def community_market__put_sticker_to_sell():
     return {'error': 0}
 
 
-@APP.route('/user/get_coins/', methods=['PUT'])
+@APP.route('/user/get_coins/', methods=['GET'])
 def user__get_coins():
     return {'error': 0, 'coins': __get_coins()}
 
 
-@APP.route('/user/is_admin/', methods=['PUT'])
+@APP.route('/user/is_admin/', methods=['GET'])
 def user__is_admin():
     DB_CUR = get_database().cursor()
     QUERY_RESULT = DB_CUR.execute(f'SELECT is_admin FROM users WHERE email="{request.form["email"]}"')
@@ -204,7 +204,7 @@ def user__is_admin():
         return {'error': 1, 'error_message': 'Usuário não é administrador!'}
 
 
-@APP.route('/user/login/', methods=['PUT'])
+@APP.route('/user/login/', methods=['GET'])
 def user__login():
     DB_CUR = get_database().cursor()
     if list(DB_CUR.execute(f'SELECT COUNT(*) FROM users WHERE email="{request.form["email"]}" AND password="{request.form["password"]}"'))[0][0] == 1:
